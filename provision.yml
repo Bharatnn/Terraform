@@ -1,0 +1,17 @@
+---
+ - name: Configure instance(s)
+   hosts: all
+   become: True
+   gather_facts: True
+   user: ec2-user
+   tasks:
+    - name: Install Mariadb
+      become: yes
+      yum: name={{ item }}
+      with_items:
+        - mariadb-server
+        - MySQL-python
+        - python-psycopg2
+
+    - name: Start the Mariadb service
+      action: service name=mariadb state=started
